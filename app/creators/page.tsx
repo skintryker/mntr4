@@ -1,246 +1,87 @@
-'use client'
+import Link from 'next/link'
+import { products } from '@/data/products'
+import ProductCard from '@/components/ProductCard'
 
-import { useState } from 'react'
-import CreatorCard from '@/components/CreatorCard'
-import { creators } from '@/data/creators'
+export const metadata = {
+  title: 'MNTR4 Originals — Our Designs',
+  description: 'Every MNTR4 design is an original. Browse our full catalog of minimal aesthetic apparel made on demand.',
+}
 
-const HOW_IT_WORKS = [
-  {
-    step: '01',
-    title: 'Create',
-    description:
-      'Design your pieces using our product templates and upload your artwork to the MNTR4 platform.',
-  },
-  {
-    step: '02',
-    title: 'Upload',
-    description:
-      'Submit your designs for review. Our team ensures quality standards and brand alignment.',
-  },
-  {
-    step: '03',
-    title: 'Sell',
-    description:
-      'Your products go live in your creator store. We handle production, fulfillment, and customer service.',
-  },
-  {
-    step: '04',
-    title: 'Earn',
-    description:
-      'Receive 15–20% of every sale, paid monthly. No upfront costs, no inventory risk.',
-  },
+const DESIGN_SERIES = [
+  { name: 'MNTR4 Classics',    count: 4, desc: 'The core lineup. Logo tees, bracket hoodies, essential neutrals.' },
+  { name: 'Minimal Essentials', count: 3, desc: 'Clean silhouettes. No graphics, no noise — just premium basics.' },
+  { name: 'Limited Series',     count: 2, desc: 'Time-limited drops. Once gone, no restocks.' },
+  { name: 'Statement Pieces',   count: 3, desc: 'Bold minimal graphics for those who prefer a louder silence.' },
 ]
 
-export default function CreatorsPage() {
-  const [form, setForm] = useState({ name: '', email: '', portfolio: '' })
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitted(true)
-  }
+export default function OriginalsPage() {
+  const showcase = products.slice(0, 4)
 
   return (
-    <div className="pt-16 min-h-screen bg-brand-off-white">
+    <div className="pt-0 min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative bg-brand-near-black py-24 px-6 overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <p className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium mb-4">
-            The MNTR4 Creator Program
-          </p>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-6">
-            Create with MNTR4
+      <section className="bg-[#0a0a0a] py-24 px-6">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-white/25 font-semibold mb-4">Original designs</p>
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-none mb-6">
+            MNTR4 Originals
           </h1>
-          <p className="text-sm text-brand-mid-gray leading-relaxed max-w-lg mx-auto mb-10">
-            Join independent designers, illustrators, and art directors who sell their work on the
-            MNTR4 platform. No inventory. No risk. Just your designs — made on demand.
+          <p className="text-[14px] text-white/40 max-w-lg leading-relaxed font-body">
+            Every piece in the MNTR4 catalog is an original design. No templates, no generic graphics — only curated minimal aesthetic apparel made on demand.
           </p>
-          <a
-            href="#apply"
-            className="inline-block bg-white text-brand-black text-xs uppercase tracking-widest font-bold px-8 py-4 hover:bg-brand-off-white transition-colors"
-          >
-            Apply to Sell
-          </a>
         </div>
       </section>
 
-      {/* Featured Creators */}
+      {/* Design series */}
+      <section className="py-20 px-6 bg-[#f7f6f3]">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-black/35 font-semibold mb-10">Browse by series</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {DESIGN_SERIES.map((s, i) => (
+              <Link key={s.name} href="/shop" className="group bg-white border border-black/8 p-6 hover:border-black/20 transition-colors">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-black/25 font-semibold mb-4">0{i + 1}</p>
+                <h3 className="text-[13px] font-bold text-black tracking-tight mb-2">{s.name}</h3>
+                <p className="text-[11px] text-black/40 leading-relaxed mb-4 font-body">{s.desc}</p>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-black/30 font-semibold">{s.count} designs</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Showcase products */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-10">
-            <p className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium mb-1">
-              On the platform
-            </p>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-brand-black">
-              Featured Creators
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {creators.slice(0, 3).map((creator) => (
-              <CreatorCard
-                key={creator.id}
-                name={creator.name}
-                handle={creator.handle}
-                itemCount={creator.itemCount}
-                bio={creator.bio}
-                avatarColor={creator.avatarColor}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="py-20 px-6 bg-brand-off-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium mb-2">
-              Simple process
-            </p>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-brand-black">
-              How It Works
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {HOW_IT_WORKS.map((step, i) => (
-              <div key={step.step} className="relative">
-                {i < HOW_IT_WORKS.length - 1 && (
-                  <div className="hidden lg:block absolute top-5 left-full w-full h-px bg-brand-light-gray z-0" style={{ width: 'calc(100% - 3rem)', left: '80%' }} />
-                )}
-                <div className="relative z-10">
-                  <div className="w-10 h-10 bg-brand-black flex items-center justify-center mb-5">
-                    <span className="text-xs font-bold text-white tracking-widest">{step.step}</span>
-                  </div>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-brand-black mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs text-brand-mid-gray leading-relaxed">{step.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Earnings */}
-      <section className="py-20 px-6 bg-brand-beige">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium mb-2">
-              Transparent payouts
-            </p>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-brand-black">
-              Earnings Breakdown
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                stat: '15–20%',
-                label: 'Per Sale',
-                desc: 'Earn 15–20% of every product sold through your creator store. Higher volume unlocks better rates.',
-              },
-              {
-                stat: 'Monthly',
-                label: 'Payouts',
-                desc: 'Earnings are paid out on the 1st of each month via bank transfer or PayPal. No minimum threshold.',
-              },
-              {
-                stat: '$0',
-                label: 'Upfront Cost',
-                desc: 'No setup fees, no inventory costs, no risk. You only earn — we handle everything else.',
-              },
-            ].map((item) => (
-              <div key={item.label} className="bg-white p-8 border border-brand-light-gray">
-                <p className="text-4xl font-black tracking-tighter text-brand-black mb-1">
-                  {item.stat}
-                </p>
-                <p className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium mb-3">
-                  {item.label}
-                </p>
-                <p className="text-xs text-brand-mid-gray leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Apply to Sell */}
-      <section id="apply" className="py-20 px-6 bg-white">
-        <div className="max-w-xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium mb-2">
-              Get started
-            </p>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-brand-black mb-3">
-              Apply to Sell on MNTR4
-            </h2>
-            <p className="text-sm text-brand-mid-gray leading-relaxed">
-              Tell us about yourself and share your portfolio. We&apos;ll review your application
-              within 3–5 business days.
-            </p>
-          </div>
-
-          {submitted ? (
-            <div className="border border-brand-black/20 bg-brand-off-white p-8 text-center">
-              <p className="text-xs uppercase tracking-widest text-brand-black font-bold mb-2">
-                Application Received
-              </p>
-              <p className="text-xs text-brand-mid-gray leading-relaxed">
-                We&apos;ll be in touch within 3–5 business days. Thank you for your interest in
-                MNTR4.
-              </p>
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-black/35 font-semibold mb-2">Featured pieces</p>
+              <h2 className="text-3xl font-bold tracking-tight text-black leading-none">The Catalog</h2>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium block mb-1.5">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Your name"
-                  className="w-full border border-brand-light-gray text-sm px-4 py-3 text-brand-black placeholder:text-brand-mid-gray focus:outline-none focus:border-brand-black transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium block mb-1.5">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="your@email.com"
-                  className="w-full border border-brand-light-gray text-sm px-4 py-3 text-brand-black placeholder:text-brand-mid-gray focus:outline-none focus:border-brand-black transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-xs uppercase tracking-widest text-brand-mid-gray font-medium block mb-1.5">
-                  Portfolio URL
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={form.portfolio}
-                  onChange={(e) => setForm({ ...form, portfolio: e.target.value })}
-                  placeholder="https://yourportfolio.com"
-                  className="w-full border border-brand-light-gray text-sm px-4 py-3 text-brand-black placeholder:text-brand-mid-gray focus:outline-none focus:border-brand-black transition-colors"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-brand-black text-white text-xs uppercase tracking-widest font-bold py-4 hover:bg-brand-charcoal transition-colors mt-2"
-              >
-                Submit Application
-              </button>
-            </form>
-          )}
+            <Link href="/shop" className="text-[11px] uppercase tracking-[0.14em] text-black/40 hover:text-black transition-colors font-medium">
+              Shop All →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-2">
+            {showcase.map((p) => <ProductCard key={p.id} {...p} />)}
+          </div>
+        </div>
+      </section>
+
+      {/* Brand statement */}
+      <section className="py-20 px-6 bg-[#1a1a1a]">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-white/25 font-semibold mb-6">The MNTR4 way</p>
+          <p className="text-2xl md:text-3xl font-bold text-white tracking-tight leading-tight mb-8">
+            Minimal aesthetic apparel, made on demand. Original designs, premium essentials, zero overproduction.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/shop" className="bg-white text-black text-[11px] uppercase tracking-[0.18em] font-bold px-8 py-4 hover:bg-[#f7f6f3] transition-colors">
+              Shop Now
+            </Link>
+            <Link href="/drops" className="border border-white/25 text-white text-[11px] uppercase tracking-[0.18em] font-bold px-8 py-4 hover:border-white transition-colors">
+              View Drops
+            </Link>
+          </div>
         </div>
       </section>
     </div>
